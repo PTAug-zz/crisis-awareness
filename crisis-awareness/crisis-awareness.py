@@ -10,7 +10,7 @@ import gmplot
 mysql = MySQL()
 app = Flask(__name__)
 app.config['MYSQL_DATABASE_USER'] = 'root'
-app.config['MYSQL_DATABASE_PASSWORD'] = 'MYSQLPT'
+app.config['MYSQL_DATABASE_PASSWORD'] = '-------'
 app.config['MYSQL_DATABASE_DB'] = 'flask'
 app.config['MYSQL_DATABASE_HOST'] = 'localhost'
 mysql.init_app(app)
