@@ -1,7 +1,7 @@
 from flask import Flask, session, render_template,url_for,request
 from flask_wtf import Form
 from wtforms.fields.html5 import DateField
-from wtforms import SelectField
+from wtforms import SelectField,RadioField
 from flaskext.mysql import MySQL
 
 from datetime import date
@@ -19,6 +19,9 @@ cursor = conn.cursor()
 
 app.secret_key = 'A0Zr98slkjdf984jnflskj_sdkfjhT'
 
+class MapFeatureForm(Form):
+    choices = RadioField('lol',choices=[('value','description'),('value_two','whatever')])
+
 class MapParamsForm(Form):
   dtfrom = DateField('DatePicker', format='%Y-%m-%d', default=date(2016,1,1))
   dtto = DateField('DatePicker', format='%Y-%m-%d', default=date(2016,1,2))
@@ -29,6 +32,7 @@ class AnalyticsForm(Form):
 
 def get_homepage_links():
     return 	[{"href": url_for('map'), "label":"Draw the Map"},{"href": url_for('analytics'), "label":"Analytics"},]
+
 def get_data(dtfrom,dtto):
     query = "select latitude, longitude from incidents where created_date >= '" + dtfrom + "' and created_date <= '" + dtto + "';"
     cursor.execute(query)
@@ -46,6 +50,19 @@ def get_df_data():
 def home():
     session["data_loaded"] = True
     return render_template('home.html', links=get_homepage_links())
+
+@app.route("/syria",methods=['GET','POST'])
+def syria():
+    formmap=MapFeatureForm()
+    return render_template('syria.html',active ='syria',formmap=formmap)
+
+@app.route("/afghanistan",methods=['GET','POST'])
+def afghanistan():
+    return render_template('afghanistan.html',active ='afgha')
+
+@app.route("/africa",methods=['GET','POST'])
+def africa():
+    return render_template('africa.html',active ='afric')
 
 @app.route("/map", methods=['GET','POST'])
 def map():
@@ -81,6 +98,10 @@ def analytics():
 
 
     return render_template('analyticsparams.html', form=form)
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'), 404
 
 if __name__ == '__main__':
    app.run(debug = True)
