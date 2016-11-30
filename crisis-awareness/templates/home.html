@@ -1,12 +1,32 @@
 {% extends "layout.html" %}
+<style>
+body{
+background-image:url('/static/background.jpg');
+}
+</style>
 {% block content %}
-  {% if session.data_loaded %}
-	  <div class="links">
-	  {% for link in links %}
-	    	<a href="{{link.href}}">{{link.label}}</a><br>
-	  {% endfor %}
-	  </div>
-  {% else %}
-    <div class="app-error"> Oops! Data wasn't loaded properly</div>
-  {% endif %}
+    {% if session.data_loaded %}
+        <div class="links">
+            <div class="jumbotron">
+                <h1>Home</h1>
+                <p>
+                    What is the real impact of foreign intervention on
+                    conflicts?
+                    Does military intervention always attenuate violence and
+                    improve living conditions?
+                </p>
+                <p>
+                    Conflict Awareness was created with these questions in
+                    mind. It aims to provide an
+                    easy and interactive access to follow developments in
+                    conflict affected regions.
+                </p>
+                <p>
+                    Start by clicking on a tab at the top of the page.
+                </p>
+            </div>
+        </div>
+    {% else %}
+        <div class="app-error"> Oops! Data wasn't loaded properly</div>
+    {% endif %}
 {% endblock %}

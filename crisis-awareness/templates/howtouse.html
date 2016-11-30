@@ -1,0 +1,69 @@
+{% extends "layout.html" %}
+{% block content %}
+    <h1>About</h1>
+    <div class="well well-lg well-lg-about">
+        <p>Conflict Awareness was created with the view of aggregating data from
+        multiple sources in an attempt to have a better understanding of conflict
+        dynamics. More specifically, an implicit objective for this project was to
+        shed light on the impact of foreign military interventions in different
+        conflicts.</p>
+
+        <p>A lot of attention was given to this topic, J. Pickering argued that
+        foreign interventions do not usually leave a significant and long lasting
+        impact on economic growth and quality of life unless they occur in non
+        democratic states (J. Pickering, 2006) and he also assessed the impact of
+        war length (J. Pickering, 2015). Molfino assessed the role of foreign aids
+        and the potentially violence aggravating impact it may have (Molfino,
+        2016). Opinions are divided on the effectiveness of foreign interventions
+        and aids, although most researchers agree on the influence of the context
+        of such interventions, and particularly that of the regime type.</p>
+
+        <p>Conflict Awareness aims to complement existing academic research by
+        providing an easily accessible visualisation interface for two major and
+        relatively recent conflicts: the War in Afghanistan and the Civil War in
+        Central African Republic. While these two conflicts are substantially
+        different in their nature, they both involved large-scale foreign military
+        interventions on non-democratic states. Conflict Awareness was designed to
+        focus on three pillars: Violence, Quality of Life & Development and Public
+        Opinion.</p>
+
+        <p>In order to visualise and track Violence patterns, the Georeferenced Event
+        Dataset (GED) from UCDP (Croicu, 2015) was used. This dataset is
+        sufficiently refined to locate daily lethal events caused by conflicts down
+        to localities. The DBSCAN algorithm was applied to it to group
+        geographically close episodes of violence and some modifications enabled
+        aggregating death counts within a given period in the created clusters.
+        Violence intensity can also be assessed through internal displacements
+        caused by conflicts. For this purpose, the UNHCR provided us with a
+        database (UNHCR, 2016) that included an annual count of persons of concerns
+        within countries (refugees, asylum seekers, internally displaced persons
+        etc. all located by Geonames). Geonames were cross-referenced with the
+        database from the National Geospatial Intelligence Agency in order to
+        obtain geo-coordinates and map displaced persons.</p>
+
+
+        <p>With regard to Development & Quality of Life, the focus was brought on
+        different indicators provided by the World Bank (World Bank, 2016), and
+        that were uniformly available for the two selected conflicts. The dataset
+        from the World Health Organisation and UNICEF on Water Supply and
+        Sanitation (Word Health Organisation, UNICEF, 2016) was also used in order
+        to provide a more complete overview of living conditions in
+        conflict-affected regions, along with their temporal evolution. Besides,
+        tracking of foreign aids inflows was made possible thanks to the AidData
+        database which include international commitment figures for development
+        projects between 1947 and 2013 (Strandow, 2016).</p>
+
+        <p>Finally, media coverage of conflict related events was analysed in an
+        attempt to determine if Public Opinion and Awareness were related to the
+        intervention of foreign forces. Archives from the New York Times were used
+        as the single indicator so far. A sentiment analysis was also performed to
+        comprehend the role of media in conveying a negative or positive message
+        throughout a conflict.</p>
+
+        <p>By regrouping many sources in an interactive webpage, Conflict Awareness
+        aims to give users the freedom to analyse the impact of foreign military
+        interventions at various levels. We hope to have made this experience
+        pleasant and insightful.</p>
+    </div>
+
+{% endblock %}

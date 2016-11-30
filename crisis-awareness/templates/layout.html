@@ -8,11 +8,11 @@
         <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
         <meta name="description" content="">
         <meta name="author" content="PT">
-        <title>Crisis Awareness</title>
+        <title>Conflict Awareness</title>
 
 
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/paper/bootstrap.min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/simplex/bootstrap.min.css">
 
         <link rel=stylesheet type=text/css
               href="{{ url_for('static', filename='style.css') }}">
@@ -29,23 +29,22 @@
     <nav class="navbar navbar-default navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
-                <a class="navbar-brand" href="/">Crisis Awareness</a>
+                <a class="navbar-brand" href="/">Conflict Awareness</a>
             </div>
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li{% if active=='syria' %} class="active" {% endif %}><a href="/syria">Syria</a></li>
                     <li{% if active=='afgha' %} class="active" {% endif %}><a href="/afghanistan">Afghanistan</a></li>
-                    <li{% if active=='afric' %} class="active" {% endif %}><a href="/africa">Central African Republic</a></li>
+                    <li{% if active=='afric' %} class="active" {% endif %}><a href="/car">Central African Republic</a></li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle"
                            data-toggle="dropdown" role="button"
                            aria-haspopup="true" aria-expanded="false">More
                             <span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li class="active"><a href="howtouse">How to use</a></li>
-                            <li><a href="aboutdata">About the data</a></li>
+                            <li {% if active=='howtouse' %} class="active" {% endif %}><a href="howtouse">How to use</a></li>
+                            <li {% if active=='aboutdata' %} class="active" {% endif %}><a href="aboutdata">About the data</a></li>
                             <li role="separator" class="divider"></li>
-                            <li><a href="team">Team</a></li>
+                            <li {% if active=='team' %} class="active" {% endif %}><a href="team">Team</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -62,10 +61,10 @@
 
 <footer class="footer">
     {% block footer %}
-        <div class="container text-center text-muted">
+{#        <div class="container text-center text-muted">
             <p>November 2016 - Columbia University - Data Analytics for Operations Research.</p>
             <p>Prof. Hardeep Johar - Paul-Tristan Auguin, Aman Bangad, Ahmed Cherif, Marcos Guijarro</p>
-        </div>
+        </div>#}
     {% endblock %}
 </footer>
 </body>

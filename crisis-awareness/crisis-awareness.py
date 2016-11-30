@@ -1,107 +1,146 @@
-from flask import Flask, session, render_template,url_for,request
-from flask_wtf import Form
-from wtforms.fields.html5 import DateField
-from wtforms import SelectField,RadioField
+from flask import Flask, session, render_template, url_for, request
 from flaskext.mysql import MySQL
 
-from datetime import date
-import gmplot
+from analysis import *
+from customforms import *
 
-mysql = MySQL()
 app = Flask(__name__)
+
+
+
+#### INITIAL LOAD ####
+print('***** INITIAL DATA LOAD *****')
+
+print('Connection to MySQL')
+mysql = MySQL()
 app.config['MYSQL_DATABASE_USER'] = 'root'
-app.config['MYSQL_DATABASE_PASSWORD'] = '------'
-app.config['MYSQL_DATABASE_DB'] = 'flask'
+app.config['MYSQL_DATABASE_PASSWORD'] = 'MYSQLPT'
+app.config['MYSQL_DATABASE_DB'] = 'nytimesconflicts'
 app.config['MYSQL_DATABASE_HOST'] = 'localhost'
 mysql.init_app(app)
 conn = mysql.connect()
 cursor = conn.cursor()
+print('Connection to MySQL successful')
+
+print('Loading Afghanistan aid database...')
+aids_afgha = Aidplot()
+aids_afgha.aids_df(datafile='aiddata.csv', country_iso2='AF')
+
+print('Loading Central Africa aid database...')
+aids_car = Aidplot()
+aids_car.aids_df(datafile='aiddata.csv', country_iso2='CF')
+
+print('Loading Afghanistan map database...')
+afgha_map=Mapplot(country='Afghanistan')
+
+print('Loading Central Africa map database...')
+car_map=Mapplot(country='Central African Republic')
+
+### UNCOMMENT THESE IF YOU WANT TO REPLOT ALL GRAPHS ###
+
+#print('Loading Afghanistan development data...')
+#afgha_dev=Development(country='Afghanistan')
+#print('Trying to update all graphs')
+#afgha_dev.update_all()
+
+#print('Loading Central African Republic development data...')
+#car_dev=Development(country='Central African Republic')
+#print('Updating all CAR development graphs')
+#car_dev.update_all()
+
+#print('Loading Afghanistan NYTimes database...')
+#afgha_nytimes=NYTimes(cursordb=cursor,country='Afghanistan')
+#print('Updating Afghanistan NYTimes graphs...')
+#afgha_nytimes.update_all_plots()
+
+#print('Loading Central Africa NYTimes database...')
+#car_nytimes=NYTimes(cursordb=cursor,country='CAR')
+#print('Updating Central Africa NYTimes database...')
+#car_nytimes.update_all_plots()
+
+### END OF UNCOMMENT ###
+
+print('***** END OF INITIAL DATA LOAD *****')
+#### END INITIAL LOAD ####
 
 app.secret_key = 'A0Zr98slkjdf984jnflskj_sdkfjhT'
 
-class MapFeatureForm(Form):
-    choices = RadioField('lol',choices=[('value','description'),('value_two','whatever')])
-
-class MapParamsForm(Form):
-  dtfrom = DateField('DatePicker', format='%Y-%m-%d', default=date(2016,1,1))
-  dtto = DateField('DatePicker', format='%Y-%m-%d', default=date(2016,1,2))
-
-class AnalyticsForm(Form):
-    attributes = SelectField('Data Attributes', choices=[('Agency', 'Agency'), ('Borough', 'Borough'), ('Complaint_Type', 'Complaint Type')])
-
-
 def get_homepage_links():
-    return 	[{"href": url_for('map'), "label":"Draw the Map"},{"href": url_for('analytics'), "label":"Analytics"},]
-
-def get_data(dtfrom,dtto):
-    query = "select latitude, longitude from incidents where created_date >= '" + dtfrom + "' and created_date <= '" + dtto + "';"
-    cursor.execute(query)
-    return cursor.fetchall()
-
-def get_df_data():
-    import pandas
-    query = "select unique_key, agency, complaint_type, borough from incidents;"
-    cursor.execute(query)
-    data = cursor.fetchall()
-    df = pandas.DataFrame(data=list(data),columns=['Unique_key','Agency','Complaint Type','Borough'])
-    return df
+    return [{"href": url_for('map'), "label": "Draw the Map"},
+            {"href": url_for('analytics'), "label": "Analytics"}, ]
 
 @app.route("/")
 def home():
     session["data_loaded"] = True
-    return render_template('home.html', links=get_homepage_links())
+    return render_template('home.html')
 
-@app.route("/syria",methods=['GET','POST'])
-def syria():
-    formmap=MapFeatureForm()
-    return render_template('syria.html',active ='syria',formmap=formmap)
 
-@app.route("/afghanistan",methods=['GET','POST'])
+@app.route("/afghanistan", methods=['GET', 'POST'])
 def afghanistan():
-    return render_template('afghanistan.html',active ='afgha')
+    formmap = AfghaMapFeatureForm()
 
-@app.route("/africa",methods=['GET','POST'])
-def africa():
-    return render_template('africa.html',active ='afric')
+    formmap.choiceswhat.data='value'
 
-@app.route("/map", methods=['GET','POST'])
-def map():
-    form = MapParamsForm()
-    if form.validate_on_submit():
-        dtfrom =  form.dtfrom.data.strftime('%Y-%m-%d')
-        dtto =  form.dtto.data.strftime('%Y-%m-%d')
-        coordinates = get_data(dtfrom, dtto)
-        latitudes, longitudes = ([],[])
-        if (len(coordinates)>0):
-            for pair in coordinates:
-                latitudes.append(pair[0])
-                longitudes.append(pair[1])
-        gmap = gmplot.GoogleMapPlotter.from_geocode("New York",8)
-        gmap.heatmap(latitudes, longitudes)
-        gmap.draw('templates/mapoutput.html')
-        return render_template('map.html', mapfile = 'mapoutput.html')
-
-    return render_template('mapparams.html', form=form)
-
-@app.route('/analytics/',methods=['GET','POST'])
-def analytics():
-    form = AnalyticsForm()
-    if form.validate_on_submit():
-        import pandas
-        df = get_df_data()
-        column = request.form.get('attributes')
-        group = df.groupby(column)
-        ax = group.size().plot(kind='bar')
-        fig = ax.get_figure()
-        fig.savefig('static/group_by_fig.png')
-        return render_template('analyticsoutput.html')
+    #Get data
+    dtfrom=formmap.datestart.data+'-01-01'
+    dtto = formmap.dateend.data + '-12-31'
 
 
-    return render_template('analyticsparams.html', form=form)
+    if formmap.updatemap.data == True:
+        afgha_map.render_map_country(start_date=dtfrom,end_date=dtto)
+
+    if formmap.updatedonation.data==True:
+        aids_afgha.aids_update_plot(formmap.country.data)
+
+    return render_template('afghanistan.html', active='afgha', formmap=formmap,
+                           mapfile='afgha_map.html',aidplot='afgha_aidplot.html',
+                           deathrate='afgha_deathrate.html',
+                           lifeexpectancy='afgha_life_expectancy.html',
+                           nutrition='afgha_nutrition.html',
+                           schoolenrollment='afgha_school_enrollment.html',
+                           nyt_mentions='afgha_mentions.html',
+                           nyt_sentiment = 'afgha_sentiment.html')
+
+
+@app.route("/car", methods=['GET', 'POST'])
+def car():
+    formmap = CARMapFeatureForm()
+
+    dtfrom=formmap.datestart.data+'-01-01'
+    dtto = formmap.dateend.data + '-12-31'
+
+    if formmap.updatemap.data == True:
+        car_map.render_map_country(start_date=dtfrom,end_date=dtto)
+
+    if formmap.updatedonation.data==True:
+        aids_car.aids_update_plot(formmap.country.data)
+
+
+    return render_template('car.html', active='afric',formmap=formmap,
+                           mapfile='car_map.html',aidplot='car_aidplot.html',
+                           deathrate='car_deathrate.html',
+                           lifeexpectancy='car_life_expectancy.html',
+                           nutrition='car_nutrition.html',
+                           schoolenrollment='car_school_enrollment.html',
+                           nyt_mentions='car_mentions.html',
+                           nyt_sentiment='car_sentiment.html')
+
+@app.route("/howtouse", methods=['GET', 'POST'])
+def howtouse():
+    return render_template('howtouse.html', active='howtouse')
+
+@app.route("/aboutdata", methods=['GET', 'POST'])
+def aboutdata():
+    return render_template('aboutdata.html', active='aboutdata')
+
+@app.route("/team", methods=['GET', 'POST'])
+def team():
+    return render_template('team.html', active='team')
 
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('404.html'), 404
 
+
 if __name__ == '__main__':
-   app.run(debug = True)
+    app.run(debug=True,use_reloader=False)
