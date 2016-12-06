@@ -1,10 +1,15 @@
 {% extends "layout.html" %}
+{% block content %}
 <style>
 body{
-background-image:url('/static/background.jpg');
+    background-image:url('/static/background.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.jumbotron {
+   background: rgba(218, 218, 218, 0.7);
 }
 </style>
-{% block content %}
     {% if session.data_loaded %}
         <div class="links">
             <div class="jumbotron">

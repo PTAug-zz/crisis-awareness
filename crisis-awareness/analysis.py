@@ -316,7 +316,6 @@ class Mapplot:
 
         return rs
 
-
 class Development:
     def __init__(self,country='Afghanistan',path='/Users/Paul-Tristan/Documents/Columbia/Cours/Fall16/Data Analytics for OR/Project/Datasets/'):
         datafile = path+"WDI_Data.csv"
@@ -477,13 +476,13 @@ class NYTimes:
                                        'Positivity'])
             self.prefix='afgha_'
 
-        self.ticks=takespread(list(self.df["Date"]),10)
+        self.ticks=ticks = [str(i) for i in takespread(list(self.df["Date"]),20)]
+        self.labels=labels = [str(i) if str(i) in ticks else '' for i in self.df["Date"]]
 
     def update_sentiment_plot(self):
         fig, ax = plt.subplots(figsize=(9, 4))
-
-        # plt.xticks(range(len(df["Positivity"])),ticks,rotation=45)
-        # plt.xticks(range(len(ticks)),ticks,rotation=45)
+        #plt.xticks(range(len(self.df["Positivity"])),ticks,rotation=45)
+        #plt.xticks(range(len(ticks)),ticks,rotation=45)
         plt.setp(ax.get_xticklabels(), visible=False)
         plt.plot(self.df['Negativity'], color="red",label='Negativity')
         plt.plot(self.df['Positivity'], color="green",label='Positivity')
@@ -491,12 +490,23 @@ class NYTimes:
         plt.locator_params(nbins=10)
         plt.title('Sentiment analysis of the articles')
         plt.ylabel('Strength of the feeling')
+        # fig.canvas.draw()
+        # ax.set_xlim([0, len(self.df['Negativity'])])
+        #
+        # ax.set_xticks(range(len(self.df['Negativity'])))
+        # ax.set_xticklabels(self.labels, rotation=45)
+        # plt.plot(self.df['Negativity'], color="red")
+        # plt.plot(self.df['Positivity'], color="green")
+        #
+        # plt.legend(loc='upper center')
+        # plt.locator_params(nbins=10)
+        # plt.title('Sentiment analysis of the articles')
+        # plt.ylabel('Strength of the feeling')
 
         mpld3.save_html(fig, 'templates/' + self.prefix + 'sentiment.html')
 
     def update_mentions_plot(self):
         fig, ax = plt.subplots(figsize=(9, 4))
-
         # plt.xticks(range(len(df["Positivity"])),ticks,rotation=45)
         # plt.xticks(range(len(ticks)),ticks,rotation=45)
         plt.setp(ax.get_xticklabels(), visible=False)
@@ -510,6 +520,69 @@ class NYTimes:
     def update_all_plots(self):
         self.update_mentions_plot()
         self.update_sentiment_plot()
+
+class WaterGraphs:
+    def __init__(self,country='Afghanistan',path='/Users/Paul-Tristan/Documents/Columbia/Cours/Fall16/Data Analytics for OR/Project/Datasets/'):
+        datafile = path+"water_data.csv"
+        self.columns = ['Country','Year','Urban Population',
+                'Rural Population','Urban total Improved water (%)',
+                'Rural total Improved water (%)','Total Improved water (%)',
+                'Urban total Improved sanitation (%)',
+                'Rural total Improved sanitation (%)',
+                'Sanitation total Improved (%)']
+
+        if country == 'Afghanistan':
+            self.country = "Afghanistan"
+            self.prefix='afgha_'
+
+        if country == 'Central African Republic':
+            self.country = "Central African Republic"
+            self.prefix='car_'
+
+        data = pd.read_csv(datafile, encoding='iso-8859-1', usecols=self.columns)
+        clean_data = data[data['Country'] == self.country]
+        clean_data = clean_data.sort_values(by='Year')
+        clean_data = clean_data.reset_index(drop=True)
+        clean_data = clean_data.reindex(columns=self.columns)
+
+        self.df=clean_data
+
+    def update_access_clean_water(self):
+        fig, ax = plt.subplots(figsize=(9, 4))
+
+        water_total_population_df_a = self.df.set_index('Year')
+        water_total_population_df_b = water_total_population_df_a.T
+        water_total_population_df_c = water_total_population_df_b[5:6]
+        water_total_population_df_d = water_total_population_df_c.T
+
+        ax.plot(water_total_population_df_d)
+        ax.set_ylabel(
+            'Population with access to water (as % of total population)')
+        ax.set_xlabel('Year')
+        ax.set_title('Population with access to clean water')
+        mpld3.save_html(fig,
+                        'templates/' + self.prefix + 'access_water.html')
+
+    def update_sanitation_access(self):
+        fig, ax = plt.subplots(figsize=(9, 4))
+
+        sanitation_total_population_df_a = self.df.set_index('Year')
+        sanitation_total_population_df_b = sanitation_total_population_df_a.T
+        sanitation_total_population_df_c = sanitation_total_population_df_b[
+                                           8:9]
+        sanitation_total_population_df_d = sanitation_total_population_df_c.T
+
+        ax.plot(sanitation_total_population_df_d)
+        ax.set_ylabel(
+            'Population with access to sanitation (as % of total population)')
+        ax.set_xlabel('Year')
+        ax.set_title('Population with access to sanitation facilities')
+        mpld3.save_html(fig,
+                        'templates/' + self.prefix + 'sanitation.html')
+
+    def update_all(self):
+        self.update_access_clean_water()
+        self.update_sanitation_access()
 
 #UTILS
 

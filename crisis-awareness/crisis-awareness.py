@@ -58,6 +58,16 @@ car_map=Mapplot(country='Central African Republic')
 #print('Updating Central Africa NYTimes database...')
 #car_nytimes.update_all_plots()
 
+# print('Loading Afghanistan water data...')
+# afgha_water=WaterGraphs(country='Afghanistan')
+# print('Trying to update all graphs')
+# afgha_water.update_all()
+
+# print('Loading Afghanistan water data...')
+# car_water=WaterGraphs(country='Central African Republic')
+# print('Trying to update all graphs')
+# car_water.update_all()
+
 ### END OF UNCOMMENT ###
 
 print('***** END OF INITIAL DATA LOAD *****')
@@ -99,7 +109,9 @@ def afghanistan():
                            nutrition='afgha_nutrition.html',
                            schoolenrollment='afgha_school_enrollment.html',
                            nyt_mentions='afgha_mentions.html',
-                           nyt_sentiment = 'afgha_sentiment.html')
+                           nyt_sentiment = 'afgha_sentiment.html',
+                           water='afgha_access_water.html',
+                           sanitation='afgha_sanitation.html')
 
 
 @app.route("/car", methods=['GET', 'POST'])
@@ -123,7 +135,9 @@ def car():
                            nutrition='car_nutrition.html',
                            schoolenrollment='car_school_enrollment.html',
                            nyt_mentions='car_mentions.html',
-                           nyt_sentiment='car_sentiment.html')
+                           nyt_sentiment='car_sentiment.html',
+                           water='car_access_water.html',
+                           sanitation='car_sanitation.html')
 
 @app.route("/howtouse", methods=['GET', 'POST'])
 def howtouse():

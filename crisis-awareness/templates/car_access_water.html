@@ -1,0 +1,43 @@
+
+
+<style>
+
+</style>
+
+<div id="fig_el391447212644004861493557"></div>
+<script>
+function mpld3_load_lib(url, callback){
+  var s = document.createElement('script');
+  s.src = url;
+  s.async = true;
+  s.onreadystatechange = s.onload = callback;
+  s.onerror = function(){console.warn("failed to load library " + url);};
+  document.getElementsByTagName("head")[0].appendChild(s);
+}
+
+if(typeof(mpld3) !== "undefined" && mpld3._mpld3IsLoaded){
+   // already loaded: just create the figure
+   !function(mpld3){
+       
+       mpld3.draw_figure("fig_el391447212644004861493557", {"data": {"data01": [[1990.0, 58.8], [1991.0, 58.8], [1992.0, 58.8], [1993.0, 59.3], [1994.0, 59.7], [1995.0, 60.2], [1996.0, 60.6], [1997.0, 61.1], [1998.0, 61.6], [1999.0, 62.0], [2000.0, 62.5], [2001.0, 62.9], [2002.0, 63.4], [2003.0, 63.8], [2004.0, 64.3], [2005.0, 64.8], [2006.0, 65.2], [2007.0, 65.7], [2008.0, 66.2], [2009.0, 66.7], [2010.0, 67.2], [2011.0, 67.7], [2012.0, 68.2], [2013.0, 68.3], [2014.0, 68.4], [2015.0, 68.5]]}, "plugins": [{"type": "reset"}, {"type": "zoom", "button": true, "enabled": false}, {"type": "boxzoom", "button": true, "enabled": false}], "id": "el39144721264400", "axes": [{"collections": [], "sharex": [], "texts": [{"fontsize": 11.0, "color": "#262626", "v_baseline": "hanging", "position": [0.5, -0.09114583333333334], "h_anchor": "middle", "id": "el39144714680104", "coordinates": "axes", "alpha": 1, "rotation": -0.0, "zorder": 3, "text": "Year"}, {"fontsize": 11.0, "color": "#262626", "v_baseline": "auto", "position": [-0.04629629629629628, 0.5], "h_anchor": "middle", "id": "el39144714725672", "coordinates": "axes", "alpha": 1, "rotation": -90.0, "zorder": 3, "text": "Population with access to water (as % of total population)"}, {"fontsize": 12.0, "color": "#262626", "v_baseline": "auto", "position": [0.5, 1.0217013888888888], "h_anchor": "middle", "id": "el39144714713384", "coordinates": "axes", "alpha": 1, "rotation": -0.0, "zorder": 3, "text": "Population with access to clean water"}], "yscale": "linear", "ydomain": [58.0, 70.0], "axesbgalpha": null, "sharey": [], "zoomable": true, "xdomain": [1990.0, 2015.0], "bbox": [0.125, 0.09999999999999998, 0.775, 0.8], "markers": [], "paths": [], "ylim": [58.0, 70.0], "id": "el39144714649584", "axes": [{"scale": "linear", "fontsize": 10.0, "position": "bottom", "tickformat": null, "grid": {"gridOn": true, "alpha": 1.0, "dasharray": "10,0", "color": "#CCCCCC"}, "nticks": 6, "tickvalues": null}, {"scale": "linear", "fontsize": 10.0, "position": "left", "tickformat": null, "grid": {"gridOn": true, "alpha": 1.0, "dasharray": "10,0", "color": "#CCCCCC"}, "nticks": 7, "tickvalues": null}], "axesbg": "#FFFFFF", "xlim": [1990.0, 2015.0], "xscale": "linear", "lines": [{"linewidth": 1.75, "dasharray": "10,0", "yindex": 1, "color": "#4C72B0", "id": "el39144715198616", "zorder": 2, "xindex": 0, "coordinates": "data", "alpha": 1, "data": "data01"}], "images": []}], "height": 320.0, "width": 720.0});
+   }(mpld3);
+}else if(typeof define === "function" && define.amd){
+   // require.js is available: use it to load d3/mpld3
+   require.config({paths: {d3: "https://mpld3.github.io/js/d3.v3.min"}});
+   require(["d3"], function(d3){
+      window.d3 = d3;
+      mpld3_load_lib("https://mpld3.github.io/js/mpld3.v0.2.js", function(){
+         
+         mpld3.draw_figure("fig_el391447212644004861493557", {"data": {"data01": [[1990.0, 58.8], [1991.0, 58.8], [1992.0, 58.8], [1993.0, 59.3], [1994.0, 59.7], [1995.0, 60.2], [1996.0, 60.6], [1997.0, 61.1], [1998.0, 61.6], [1999.0, 62.0], [2000.0, 62.5], [2001.0, 62.9], [2002.0, 63.4], [2003.0, 63.8], [2004.0, 64.3], [2005.0, 64.8], [2006.0, 65.2], [2007.0, 65.7], [2008.0, 66.2], [2009.0, 66.7], [2010.0, 67.2], [2011.0, 67.7], [2012.0, 68.2], [2013.0, 68.3], [2014.0, 68.4], [2015.0, 68.5]]}, "plugins": [{"type": "reset"}, {"type": "zoom", "button": true, "enabled": false}, {"type": "boxzoom", "button": true, "enabled": false}], "id": "el39144721264400", "axes": [{"collections": [], "sharex": [], "texts": [{"fontsize": 11.0, "color": "#262626", "v_baseline": "hanging", "position": [0.5, -0.09114583333333334], "h_anchor": "middle", "id": "el39144714680104", "coordinates": "axes", "alpha": 1, "rotation": -0.0, "zorder": 3, "text": "Year"}, {"fontsize": 11.0, "color": "#262626", "v_baseline": "auto", "position": [-0.04629629629629628, 0.5], "h_anchor": "middle", "id": "el39144714725672", "coordinates": "axes", "alpha": 1, "rotation": -90.0, "zorder": 3, "text": "Population with access to water (as % of total population)"}, {"fontsize": 12.0, "color": "#262626", "v_baseline": "auto", "position": [0.5, 1.0217013888888888], "h_anchor": "middle", "id": "el39144714713384", "coordinates": "axes", "alpha": 1, "rotation": -0.0, "zorder": 3, "text": "Population with access to clean water"}], "yscale": "linear", "ydomain": [58.0, 70.0], "axesbgalpha": null, "sharey": [], "zoomable": true, "xdomain": [1990.0, 2015.0], "bbox": [0.125, 0.09999999999999998, 0.775, 0.8], "markers": [], "paths": [], "ylim": [58.0, 70.0], "id": "el39144714649584", "axes": [{"scale": "linear", "fontsize": 10.0, "position": "bottom", "tickformat": null, "grid": {"gridOn": true, "alpha": 1.0, "dasharray": "10,0", "color": "#CCCCCC"}, "nticks": 6, "tickvalues": null}, {"scale": "linear", "fontsize": 10.0, "position": "left", "tickformat": null, "grid": {"gridOn": true, "alpha": 1.0, "dasharray": "10,0", "color": "#CCCCCC"}, "nticks": 7, "tickvalues": null}], "axesbg": "#FFFFFF", "xlim": [1990.0, 2015.0], "xscale": "linear", "lines": [{"linewidth": 1.75, "dasharray": "10,0", "yindex": 1, "color": "#4C72B0", "id": "el39144715198616", "zorder": 2, "xindex": 0, "coordinates": "data", "alpha": 1, "data": "data01"}], "images": []}], "height": 320.0, "width": 720.0});
+      });
+    });
+}else{
+    // require.js not available: dynamically load d3 & mpld3
+    mpld3_load_lib("https://mpld3.github.io/js/d3.v3.min.js", function(){
+         mpld3_load_lib("https://mpld3.github.io/js/mpld3.v0.2.js", function(){
+                 
+                 mpld3.draw_figure("fig_el391447212644004861493557", {"data": {"data01": [[1990.0, 58.8], [1991.0, 58.8], [1992.0, 58.8], [1993.0, 59.3], [1994.0, 59.7], [1995.0, 60.2], [1996.0, 60.6], [1997.0, 61.1], [1998.0, 61.6], [1999.0, 62.0], [2000.0, 62.5], [2001.0, 62.9], [2002.0, 63.4], [2003.0, 63.8], [2004.0, 64.3], [2005.0, 64.8], [2006.0, 65.2], [2007.0, 65.7], [2008.0, 66.2], [2009.0, 66.7], [2010.0, 67.2], [2011.0, 67.7], [2012.0, 68.2], [2013.0, 68.3], [2014.0, 68.4], [2015.0, 68.5]]}, "plugins": [{"type": "reset"}, {"type": "zoom", "button": true, "enabled": false}, {"type": "boxzoom", "button": true, "enabled": false}], "id": "el39144721264400", "axes": [{"collections": [], "sharex": [], "texts": [{"fontsize": 11.0, "color": "#262626", "v_baseline": "hanging", "position": [0.5, -0.09114583333333334], "h_anchor": "middle", "id": "el39144714680104", "coordinates": "axes", "alpha": 1, "rotation": -0.0, "zorder": 3, "text": "Year"}, {"fontsize": 11.0, "color": "#262626", "v_baseline": "auto", "position": [-0.04629629629629628, 0.5], "h_anchor": "middle", "id": "el39144714725672", "coordinates": "axes", "alpha": 1, "rotation": -90.0, "zorder": 3, "text": "Population with access to water (as % of total population)"}, {"fontsize": 12.0, "color": "#262626", "v_baseline": "auto", "position": [0.5, 1.0217013888888888], "h_anchor": "middle", "id": "el39144714713384", "coordinates": "axes", "alpha": 1, "rotation": -0.0, "zorder": 3, "text": "Population with access to clean water"}], "yscale": "linear", "ydomain": [58.0, 70.0], "axesbgalpha": null, "sharey": [], "zoomable": true, "xdomain": [1990.0, 2015.0], "bbox": [0.125, 0.09999999999999998, 0.775, 0.8], "markers": [], "paths": [], "ylim": [58.0, 70.0], "id": "el39144714649584", "axes": [{"scale": "linear", "fontsize": 10.0, "position": "bottom", "tickformat": null, "grid": {"gridOn": true, "alpha": 1.0, "dasharray": "10,0", "color": "#CCCCCC"}, "nticks": 6, "tickvalues": null}, {"scale": "linear", "fontsize": 10.0, "position": "left", "tickformat": null, "grid": {"gridOn": true, "alpha": 1.0, "dasharray": "10,0", "color": "#CCCCCC"}, "nticks": 7, "tickvalues": null}], "axesbg": "#FFFFFF", "xlim": [1990.0, 2015.0], "xscale": "linear", "lines": [{"linewidth": 1.75, "dasharray": "10,0", "yindex": 1, "color": "#4C72B0", "id": "el39144715198616", "zorder": 2, "xindex": 0, "coordinates": "data", "alpha": 1, "data": "data01"}], "images": []}], "height": 320.0, "width": 720.0});
+            })
+         });
+}
+</script>
