@@ -14,7 +14,7 @@ print('***** INITIAL DATA LOAD *****')
 print('Connection to MySQL')
 mysql = MySQL()
 app.config['MYSQL_DATABASE_USER'] = 'root'
-app.config['MYSQL_DATABASE_PASSWORD'] = 'MYSQLPT'
+app.config['MYSQL_DATABASE_PASSWORD'] = '------'
 app.config['MYSQL_DATABASE_DB'] = 'nytimesconflicts'
 app.config['MYSQL_DATABASE_HOST'] = 'localhost'
 mysql.init_app(app)
