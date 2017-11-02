@@ -1,4 +1,22 @@
-#Conflict Awareness	
+# To run the project
+
+*This is a minimal version of the project, not everything is working. Features enabled: map updates, graphs. Features NOT enabled: donation graph updates.*
+
+* This is tested on a Mac. It should work well on Linux. It most likely won't run on Windows.
+* Use python 3.5. The mlpd3 library won't work on python 3.6. This library creates matplotlib plots in html.
+* To run use `python3.5 crisis-awareness.py` in the folder that contains the `crisis-awareness.py` file.
+* Intall every library that is needed (it will throw an error message if there's a missing library)
+
+If that works you're been lucky! Now:
+
+* Go to http://127.0.0.1:5000 and explore the app.
+* Do NOT click on Update donation plot before clicking on update, it will break (I didn't enable that functionality)
+* If anything breaks (basically a white screen with error messages), click on Ctrl-C in the python terminal and relaunch.
+* Explore the code to use for your app!
+
+Note: Be patient with the app. If it's slow, don't click on a bunch of buttons, it will break. Just wait a bit!
+
+# About the project: Conflict Awareness	
 		
 Conflict	 Awareness	 was	 created	 with	 the	 view	 of	 aggregating	 data	 from	 multiple	 sources	 in	 an	 attempt	 to	
 have	a	better	understanding	of	conflict	dynamics.	More	specifically,	an	implicit	objective	for	this	project	was	

@@ -16,7 +16,7 @@ pd.options.mode.chained_assignment = None
 sns.set_style("whitegrid")
 
 class Aidplot:
-    def __init__(self,path='/Users/Paul-Tristan/Documents/Columbia/Cours/Fall16/Data Analytics for OR/Project/Datasets/'):
+    def __init__(self,path='../data/'):
         self.path_data = path
         self.columns = ['year', 'commitment_date',
                         'commitment_amount_usd_constant', 'donor',
@@ -121,7 +121,7 @@ class Aidplot:
         return plotly.offline.plot(fig,filename='templates/'+self.prefix+'aidplot.html',auto_open=False)
 
 class Mapplot:
-    def __init__(self,path='/Users/Paul-Tristan/Documents/Columbia/Cours/Fall16/Data Analytics for OR/Project/Datasets/',country=''):
+    def __init__(self,path='../data/',country=''):
         '''
         This function takes an iso code (2) to filter and clean the csv to return results for the country required.
         Results returned can also be controlled by inputting the columns required.

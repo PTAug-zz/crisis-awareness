@@ -47,27 +47,27 @@ class sentiment_analysis():
 
     def pages(self,beginDate,endDate,query):
         page = "0"
-        url_built = sentiment_analysis.apiUrl + "begin_date=" + beginDate + "&end_date=" + endDate + "&api-key=" + sentiment_analysis.api_key + "&q=" + query + "&fl=" + sentiment_analysis.fl + "&page=" + page 
+        url_built = sentiment_analysis.apiUrl + "begin_date=" + beginDate + "&end_date=" + endDate + "&api-key=" + sentiment_analysis.api_key + "&q=" + query + "&fl=" + sentiment_analysis.fl + "&page=" + page
         response = requests.get(url_built)
         json_resp = response.json()
         number_articles = json_resp['response']['meta']['hits']
         pages = int(number_articles/10)
         return pages
-    
+
     def fetch_articles(self,beginDate,endDate,query):
         page = "0"
-        url_built = sentiment_analysis.apiUrl + "begin_date=" + beginDate + "&end_date=" + endDate + "&api-key=" + sentiment_analysis.api_key + "&q=" + query + "&fl=" + sentiment_analysis.fl + "&page=" + page 
+        url_built = sentiment_analysis.apiUrl + "begin_date=" + beginDate + "&end_date=" + endDate + "&api-key=" + sentiment_analysis.api_key + "&q=" + query + "&fl=" + sentiment_analysis.fl + "&page=" + page
         response = requests.get(url_built)
         json_resp = response.json()
         number_articles = json_resp['response']['meta']['hits']
         pages = int(number_articles/10)
         for page_number in range(pages+1):
             time.sleep(0.5)
-            url_built = sentiment_analysis.apiUrl + "begin_date=" + beginDate + "&end_date=" + endDate + "&api-key=" + sentiment_analysis.api_key + "&q=" + query + "&fl=" + sentiment_analysis.fl + "&page=" + str(page_number) 
+            url_built = sentiment_analysis.apiUrl + "begin_date=" + beginDate + "&end_date=" + endDate + "&api-key=" + sentiment_analysis.api_key + "&q=" + query + "&fl=" + sentiment_analysis.fl + "&page=" + str(page_number)
             response = requests.get(url_built)
             if(response.status_code!=200):
                     print(response.content)
-            try:        
+            try:
                 json_resp = response.json()
             except:
                 pass
@@ -94,17 +94,17 @@ class sentiment_analysis():
                 except:
                     pass
         print("done")
-            
-        
+
+
     def value_of(self,sentiment):
-        if sentiment == 'pos': 
+        if sentiment == 'pos':
             return 1
-        elif sentiment == 'neg': 
+        elif sentiment == 'neg':
             return -1
         else: return 0
-        
-        
-    def sentence_score(self,sentence_tokens, previous_token, pos_score, neg_score):    
+
+
+    def sentence_score(self,sentence_tokens, previous_token, pos_score, neg_score):
         if not sentence_tokens:
             return pos_score, neg_score
         else:
@@ -118,39 +118,39 @@ class sentiment_analysis():
             else:
                 return self.sentence_score(sentence_tokens[1:], current_token, pos_score, neg_score + token_score)
 
-            
+
 
     def tag_words(self,sent_tok):
         tagged_list=[]
         for word in sent_tok:
             if word in positive_words:
                 tagged_word =(word, "pos")
-            elif word in negative_words: 
+            elif word in negative_words:
                 tagged_word =(word, "neg")
             else:
                 tagged_word =(word, "")
             tagged_list.append(tagged_word)
         return tagged_list
-    
+
     def takespread(sequence, num):
         length = float(len(sequence))
         for i in range(num):
             yield sequence[int(ceil(i * length / num))]
-        
+
     def create_sql(self):
-        db = pymysql.connect("localhost","root","12345678","final_project")
+        db = pymysql.connect("localhost","root","password","final_project")
         cursor = db.cursor()
         cursor.execute("create table afghanistan (date int, mentions int, positivity float, negativity float)")
         db.commit()
-    
+
     def analyse_Articles(self,beginDate,endDate,query):
-        
-        db = pymysql.connect("localhost","root","12345678","final_project")
+
+        db = pymysql.connect("localhost","root","password","final_project")
         cursor = db.cursor()
         d1 = datetime.datetime.strptime(beginDate, '%Y%m%d').date()
         d2 = datetime.datetime.strptime(endDate, '%Y%m%d').date()
         dd = [int((d1 + datetime.timedelta(days=x)).strftime("%Y%m%d")) for x in range((d2-d1).days + 1)]
-        
+
         df = pd.DataFrame(0,index=dd,
                   columns=["Country","Mentions","Positivity","Negativity","Year"])
         dtype={'Country':'object', 'Mentions':'int64','Positivity':'float64', 'Negativity':'float64','Year':'int64'}
@@ -170,10 +170,10 @@ class sentiment_analysis():
                 tot_wordcount = len(doc["article"]) + tot_wordcount
                 tokenized_doc = [[word for word in nltk.word_tokenize(sentence) if word not in sentiment_analysis.StopWords] for sentence in sentences]
                 tagged_doc = [self.tag_words(sent_tok) for sent_tok in tokenized_doc]
-                positivity = 0 
+                positivity = 0
                 negativity = 0
                 for sent_tok in tagged_doc:
-                    positivity, negativity = self.sentence_score(sent_tok,None,0,0) 
+                    positivity, negativity = self.sentence_score(sent_tok,None,0,0)
                     pos = positivity + pos
                     neg = negativity + neg
             df.set_value(i, "Country", query)
@@ -181,28 +181,28 @@ class sentiment_analysis():
             df.set_value(i, 'Positivity', pos)
             df.set_value(i, 'Negativity', neg)
             df.set_value(i, 'Year', int(str(i)[0:6]))
-            
+
         df = df[df.Mentions !=0].reset_index(drop=True)
 
         df = df.groupby(['Year']).agg({'Mentions': ['sum'], 'Positivity': ['mean'],'Negativity': ['mean']})
         df.columns = df.columns.droplevel(1)
         df = df.reset_index(level=['Year'])
-    
+
         df["Positivity"]=df["Positivity"]/df["Positivity"].max()
-        df["Negativity"]=df["Negativity"]/df["Negativity"].min()    
-        
-        
+        df["Negativity"]=df["Negativity"]/df["Negativity"].min()
+
+
         for index, row in df.iterrows():
             cursor.execute("""INSERT INTO afghanistan VALUES (%s,%s,%s,%s)""",(int(row["Year"]),int(row["Mentions"]),float(row["Positivity"]),float(row["Negativity"])))
         db.commit()
-    
+
     def takespread(self, sequence, num):
         length = float(len(sequence))
         for i in range(num):
             yield sequence[int(ceil(i * length / num))]
-            
+
     def plotter(self, country):
-        db = pymysql.connect("localhost","root","12345678","final_project")
+        db = pymysql.connect("localhost","root","password","final_project")
         cursor = db.cursor()
         cursor.execute("select * from %s", country)
         a = cursor.fetchall()

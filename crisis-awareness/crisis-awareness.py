@@ -1,5 +1,5 @@
 from flask import Flask, session, render_template, url_for, request
-from flaskext.mysql import MySQL
+#from flaskext.mysql import MySQL
 
 from analysis import *
 from customforms import *
@@ -11,29 +11,29 @@ app = Flask(__name__)
 #### INITIAL LOAD ####
 print('***** INITIAL DATA LOAD *****')
 
-print('Connection to MySQL')
-mysql = MySQL()
-app.config['MYSQL_DATABASE_USER'] = 'root'
-app.config['MYSQL_DATABASE_PASSWORD'] = '------'
-app.config['MYSQL_DATABASE_DB'] = 'nytimesconflicts'
-app.config['MYSQL_DATABASE_HOST'] = 'localhost'
-mysql.init_app(app)
-conn = mysql.connect()
-cursor = conn.cursor()
-print('Connection to MySQL successful')
+#print('Connection to MySQL')
+#mysql = MySQL()
+#app.config['MYSQL_DATABASE_USER'] = 'root'
+#app.config['MYSQL_DATABASE_PASSWORD'] = '------'
+#app.config['MYSQL_DATABASE_DB'] = 'nytimesconflicts'
+#app.config['MYSQL_DATABASE_HOST'] = 'localhost'
+#mysql.init_app(app)
+#conn = mysql.connect()
+#cursor = conn.cursor()
+#print('Connection to MySQL successful')
 
-print('Loading Afghanistan aid database...')
-aids_afgha = Aidplot()
-aids_afgha.aids_df(datafile='aiddata.csv', country_iso2='AF')
+#print('Loading Afghanistan aid database...')
+#aids_afgha = Aidplot()
+#aids_afgha.aids_df(datafile='aiddata.csv', country_iso2='AF')
 
-print('Loading Central Africa aid database...')
-aids_car = Aidplot()
-aids_car.aids_df(datafile='aiddata.csv', country_iso2='CF')
+#print('Loading Central Africa aid database...')
+#aids_car = Aidplot()
+#aids_car.aids_df(datafile='aiddata.csv', country_iso2='CF')
 
-print('Loading Afghanistan map database...')
+#print('Loading Afghanistan map database...')
 afgha_map=Mapplot(country='Afghanistan')
 
-print('Loading Central Africa map database...')
+#print('Loading Central Africa map database...')
 car_map=Mapplot(country='Central African Republic')
 
 ### UNCOMMENT THESE IF YOU WANT TO REPLOT ALL GRAPHS ###
